@@ -50,4 +50,3 @@ Any other client: run `/Applications/Sightline.app/Contents/MacOS/sightline-cli 
 - `copy_to_clipboard` copies an image to the clipboard.
 - `open_in_editor` opens an image or recording in the Sightline editor with editable annotations.
 - `save_replay` saves the last seconds of the screen when Replay is on (macOS 27).
-
