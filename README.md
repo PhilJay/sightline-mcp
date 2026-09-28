@@ -4,9 +4,11 @@ Screenshots, OCR, scrolling capture, annotations and screen recording on macOS f
 
 The server is part of [Sightline](https://apps.apple.com/app/id6812521593), a menu bar screenshot and recording app for the Mac ([website](https://philjay.github.io/sightline-site/)). It runs locally over stdio and nothing leaves your Mac.
 
-![Sightline](https://philjay.github.io/sightline-site/assets/agent-prompt-1040.webp)
+![Tell your AI agent what you need and Sightline captures the right window and marks it up](assets/agent-prompt.png)
 
 ## You stay in control
+
+![You approve each agent, and every capture names the agent and plays a sound](assets/you-stay-in-control.png)
 
 - Agent access is off until you turn it on in Settings > AI Agents.
 - A new agent has to ask for permission first. Allowed agents are listed in Settings and can be removed at any time.
@@ -49,8 +51,3 @@ Any other client: run `/Applications/Sightline.app/Contents/MacOS/sightline-cli 
 - `open_in_editor` opens an image or recording in the Sightline editor with editable annotations.
 - `save_replay` saves the last seconds of the screen when Replay is on (macOS 27).
 
-## Pricing
-
-The MCP server is part of Sightline Pro: 7 days free, then 3.99 a month, 24.99 a year or 29.99 once. Area and full screen capture stay free.
-
-[Website](https://philjay.github.io/sightline-site) · [Privacy](https://philjay.github.io/sightline-site/privacy.html)
