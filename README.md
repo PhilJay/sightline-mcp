@@ -44,7 +44,7 @@ Any other client: run `/Applications/Sightline.app/Contents/MacOS/sightline-cli 
 - `capture_text` reads text with on-device OCR and decodes QR codes and barcodes.
 - `find_text` returns pixel boxes for text in a window, area or display.
 - `capture_scrolling` stitches a scrolling area or window into one tall image.
-- `annotate` draws arrows, shapes, text, spotlights and blurs onto an image or a video, crops images and trims videos.
+- `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video, crops images and trims videos.
 - `record_screen` records a window, area or display for up to a minute to MP4.
 - `inspect_recording` reports when a recording is still or moving and reads text in chosen frames.
 - `last_screenshot`, `last_recording` return the newest capture.
