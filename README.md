@@ -50,5 +50,5 @@ Any other client: run `/Applications/Sightline.app/Contents/MacOS/sightline-cli 
 - `inspect_recording` reports when a recording is still or moving and reads text in chosen frames.
 - `last_screenshot`, `last_recording` return the newest capture.
 - `copy_to_clipboard` copies an image to the clipboard.
-- `open_in_editor` opens an image or recording in the Sightline editor with editable annotations.
+- `open_in_editor` opens an image or recording in the Sightline editor with editable annotations, or the picture on the user's clipboard.
 - `save_replay` saves the last seconds of the screen when Replay is on (macOS 27).
