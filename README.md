@@ -43,6 +43,7 @@ Any other client: run `/Applications/Sightline.app/Contents/MacOS/sightline-cli 
 - `list_displays` lists the connected displays, so a capture, recording or text read can pick one.
 - `capture_text` reads text with on-device OCR and decodes QR codes and barcodes.
 - `find_text` returns pixel boxes for text in a window, area or display.
+- `pick_color` returns the hex and RGB color of one point on screen.
 - `capture_scrolling` stitches a scrolling area or window into one tall image.
 - `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video, crops images and trims videos.
 - `record_screen` records a window, area or display for up to a minute to MP4.
