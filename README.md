@@ -80,7 +80,7 @@ Recordings:
 
 - `zoom_on_clicks: true` adds a 2x zoom for every click or group of clicks in the pointer track.
 - Each entry in `zooms` takes `follow`: `off` (default), `pointer` or `content`.
-- `pointer`: `{shown, size: 1 | 1.5 | 2, hide_when_idle, click_highlight: off | ripple | ring, highlight_color: "#FFD60A"}`. `shown`, `size` and `hide_when_idle` need a recording made with the pointer drawn afterwards.
+- `pointer`: `{shown, size: 1 | 1.5 | 2, hide_when_idle, click_highlight: off | ripple | ring, highlight_color: "#FFD60A"}`. `shown`, `size` and `hide_when_idle` need a recording made with Pointer set to Editable in the editor in Settings → Recording.
 - `export` (`annotate` only): `{size: original | 1080p | 720p, format: mp4 | mov, quality: high | medium | small}`.
 - `record_screen` takes `pointer`: `off`, `video` (default) or `drawn`.
 - `inspect_recording` returns `has_pointer_track` and the `clicks` of the track.
