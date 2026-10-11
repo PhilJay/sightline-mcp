@@ -83,7 +83,7 @@ Recordings:
 - Each entry in `zooms` takes `follow`: `off` (default), `pointer` or `content`.
 - `pointer`: `{shown, size: 1 | 1.5 | 2, hide_when_idle, click_highlight: off | ripple | ring, highlight_color: "#FFD60A"}`. `shown`, `size` and `hide_when_idle` need a recording made with Pointer set to Editable in the editor in Settings → Recording.
 - `export` (`annotate` only): `{size: original | 1080p | 720p, format: mp4 | mov, quality: high | medium | small}`.
-- `export` with `format: gif` writes a GIF that loops forever, without sound, with the same cuts, speeds, zooms, marks, blurs and pointer: `{format: gif, preset: chat | docs, width, fps}`. `chat` (default) is 640 pixels wide at 10 frames a second, `docs` 960 pixels at 15; `width` (160 to 1920) and `fps` (1 to 30) replace the preset's values. `size` and `quality` don't apply. A `.gif` result can't be passed to `annotate`, `inspect_recording` or `open_in_editor` again.
+- `export` with `format: gif` writes a GIF that loops forever, without sound, with the same cuts, speeds, zooms, marks, blurs and pointer: `{format: gif, width, fps}`, with `width` in pixels (160 to 1920, default 640) and `fps` (1 to 30, default 10). `size` and `quality` don't apply. A `.gif` result can't be passed to `annotate`, `inspect_recording` or `open_in_editor` again.
 - `highlight_color` also takes gray, `#8E8E93`.
 - `record_screen` takes `pointer`: `off`, `video` (default) or `drawn`.
 - `inspect_recording` returns `has_pointer_track` and the `clicks` of the track.
