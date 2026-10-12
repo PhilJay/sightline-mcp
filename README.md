@@ -56,10 +56,11 @@ sightline-cli capture_window --json '{"app": "Safari"}'  # call one, prints JSON
 - `find_text` returns pixel boxes for text in a window, area or display.
 - `pick_color` returns the hex and RGB color of one point on screen.
 - `capture_scrolling` stitches a scrolling area or window into one tall image.
-- `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video. On a screenshot it also crops, rotates, flips, resizes and exports. On a recording it also cuts and reorders clips, plays them at 0.5x to 15x, sets the volume of stretches, adds smooth or instant zooms by hand or on every click, draws the pointer and click highlights and exports a smaller copy; blurs follow what they cover.
+- `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video. On a screenshot it also crops, rotates, flips, resizes and exports. On a recording it also cuts and reorders clips, plays them at 0.5x to 15x, sets the volume of stretches, adds smooth or instant zooms by hand or on every click, draws the pointer and click highlights and exports a smaller copy or a looping GIF; blurs follow what they cover.
 - `record_screen` records a window, area or display for up to a minute to MP4 and notes where the pointer moves and clicks. It never records the microphone.
 - `inspect_recording` reports when a recording is still or moving, reads text in chosen frames and lists the clicks of the pointer track.
 - `last_screenshot`, `last_recording` return the newest capture.
+- `search_captures` searches the user's screenshots and recordings like Sightline's History, by file name and by the text Sightline read in each screenshot on the Mac, and returns paths, dates, favorites and a snippet of the matching text.
 - `copy_to_clipboard` copies an image to the clipboard.
 - `compare_with_design` compares a design image with a window, area or display, the same check as Show Differences on a pin, and returns up to 20 numbered differences with a hint (shifted, only_in_design, only_on_screen, looks_different) and a marked image.
 - `open_in_editor` opens an image or recording in the Sightline editor with editable annotations, clips, sound, zooms, pointer choices, a rotation, a size or a Beautify look, continues a capture the user saved as editable, or opens the picture on the user's clipboard.
@@ -82,7 +83,13 @@ Recordings:
 - Each entry in `zooms` takes `follow`: `off` (default), `pointer` or `content`.
 - `pointer`: `{shown, size: 1 | 1.5 | 2, hide_when_idle, click_highlight: off | ripple | ring, highlight_color: "#FFD60A"}`. `shown`, `size` and `hide_when_idle` need a recording made with Pointer set to Editable in the editor in Settings → Recording.
 - `export` (`annotate` only): `{size: original | 1080p | 720p, format: mp4 | mov, quality: high | medium | small}`.
+- `export` with `format: gif` writes a GIF that loops forever, without sound, with the same cuts, speeds, zooms, marks, blurs and pointer: `{format: gif, preset: chat | docs, width, fps}`. `chat` (default) is 640 pixels wide at 10 frames a second, `docs` 960 pixels at 15; `width` (160 to 1920) and `fps` (1 to 30) replace the preset's values. `size` and `quality` don't apply. A `.gif` result can't be passed to `annotate`, `inspect_recording` or `open_in_editor` again.
+- `highlight_color` also takes gray, `#8E8E93`.
 - `record_screen` takes `pointer`: `off`, `video` (default) or `drawn`.
 - `inspect_recording` returns `has_pointer_track` and the `clicks` of the track.
+
+Captures:
+
+- `search_captures` takes `query` (every word has to appear in the file name or the screenshot's text, in any order, ignoring case and accents; empty lists the newest), `kind` (`screenshot` or `recording`, both by default), `favorites_only` (default false) and `limit` (1 to 100, default 20). Each result has `path`, `kind`, `date`, `favorite` and, when the text matched, a `snippet`; a snippet that looks like a credential is left out when Sightline redacts them for agents. `total` counts every match, and `reading_text` says how many screenshots are still waiting to be read. Recordings match by file name only.
 
 The pointer track options need a recording made with Sightline 1.7 or later.
