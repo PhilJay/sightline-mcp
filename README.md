@@ -75,21 +75,21 @@ Screenshots, on `annotate` and `open_in_editor` unless noted:
 - `rotate`: 90, 180 or 270 degrees clockwise. `flip`: `horizontal` or `vertical`, applied after `rotate`. Marks and crop move with the picture.
 - `resize`: `{scale}` from 0.05 to 1, `{width}` or `{height}` in pixels (the other side keeps the shape), or `{width, height}` (may stretch). Only shrinks, each side at least 16 pixels.
 - `export` (`annotate` only): `{format: png | jpeg | webp, quality: high | medium | small}`, always written to a new file.
-- Text annotations, also the text inside a rectangle or ellipse: `font` (`system`, `rounded`, `serif`, `monospaced`, `handwriting`), `bold` (boolean, default true) and `text_background` (`none`, `solid`, `translucent`).
+- Text annotations, also the text inside a rectangle or ellipse: `font` (`system`, `rounded`, `serif`, `monospaced`, `handwriting`, default `system`), `bold` (boolean, default true), `text_background` (`none`, `solid`, `translucent`, default `none`) and `text_background_color` (hex such as `#FFFFFF`; defaults to white or black, whichever stands out from the text, and on its own draws a solid box).
 
 Recordings:
 
-- `zoom_on_clicks: true` adds a 2x zoom for every click or group of clicks in the pointer track.
-- Each entry in `zooms` takes `follow`: `off` (default), `pointer` or `content`.
-- `pointer`: `{shown, size: 1 | 1.5 | 2, hide_when_idle, click_highlight: off | ripple | ring, highlight_color: "#FFD60A"}`. `shown`, `size` and `hide_when_idle` need a recording made with Pointer set to Editable in the editor in Settings → Recording.
+- `zoom_on_clicks: true` adds a 2x zoom for every left click or group of clicks in the pointer track (clicks less than 1.5 s apart and close together share one zoom), on top of the `zooms` passed or the saved edit's zooms.
+- Each entry in `zooms` takes `follow`: `off` (default), `pointer` (pans to keep the pointer in view, needs the pointer track) or `content` (tracks what the area shows at the zoom's start).
+- `pointer`: `{shown, size: 1 | 1.5 | 2, hide_when_idle, click_highlight: off | ripple | ring, highlight_color: "#FFD60A"}`. `shown`, `size` and `hide_when_idle` need a recording made with the pointer left out to be drawn later: `record_screen` with `pointer: drawn`, or Pointer set to Editable in the editor in Settings → Recording. Click highlights work for every recording with a pointer track.
 - `export` (`annotate` only): `{size: original | 1080p | 720p, format: mp4 | mov, quality: high | medium | small}`.
-- `export` with `format: gif` writes a GIF that loops forever, without sound, with the same cuts, speeds, zooms, marks, blurs and pointer: `{format: gif, width, fps}`, with `width` in pixels (160 to 1920, default 640) and `fps` (1 to 30, default 10). `size` and `quality` don't apply. A `.gif` result can't be passed to `annotate`, `inspect_recording` or `open_in_editor` again.
+- `export` with `format: gif` writes a GIF that loops forever, without sound, with the same cuts, speeds, zooms, marks, blurs and pointer: `{format: gif, width, fps}`, with `width` in pixels (160 to 1920, default 640) and `fps` (1 to 30, default 10). A narrower video keeps its width, and the result also reports `frames`. `size` and `quality` don't apply. A `.gif` result can't be passed to `annotate`, `inspect_recording` or `open_in_editor` again.
 - `highlight_color` also takes gray, `#8E8E93`.
-- `record_screen` takes `pointer`: `off`, `video` (default) or `drawn`.
-- `inspect_recording` returns `has_pointer_track` and the `clicks` of the track.
+- `record_screen` takes `pointer`: `off`, `video` (default, or `off` when the user's Pointer recording setting is off) or `drawn`, which leaves the pointer out of the MP4 and has Sightline draw it from the track in the editor and in `annotate`'s result. The result's `pointer` says what was used (`drawn` falls back to `video` when the track can't be noted), and `pointer_note` says when the track couldn't be saved.
+- `inspect_recording` returns `has_pointer_track` and, with a track, `clicks`: each press with `second`, `x`, `y` in video pixels, `button` (`left` or `right`), `count` (2 for a double click) and `released_second`, plus `released_x` and `released_y` for a drag. At most 200 are listed, `clicks_left_out` counts the rest.
 
 Captures:
 
-- `search_captures` takes `query` (every word has to appear in the file name or the screenshot's text, in any order, ignoring case and accents; empty lists the newest), `kind` (`screenshot` or `recording`, both by default), `favorites_only` (default false) and `limit` (1 to 100, default 20). Each result has `path`, `kind`, `date`, `favorite` and, when the text matched, a `snippet`; a snippet that looks like a credential is left out when Sightline redacts them for agents. `total` counts every match, and `reading_text` says how many screenshots are still waiting to be read. Recordings match by file name only.
+- `search_captures` takes `query` (every word has to appear in the file name or the screenshot's text, in any order, ignoring case and accents; empty lists the newest), `kind` (`screenshot` or `recording`, both by default), `favorites_only` (default false) and `limit` (1 to 100, default 20). Each result has `path`, `kind`, `date`, `favorite` and, when the text matched, a `snippet`; a snippet that looks like a credential is left out, with `snippet_hidden: true`, when Sightline redacts them for agents. `total` counts every match, and `reading_text` says how many screenshots are still waiting to be read. Recordings match by file name only. It searches the screenshots folder and the Agent folder; the other tools only take files in the Agent folder, so copy a screenshot there first to annotate it.
 
 The pointer track options need a recording made with Sightline 1.7 or later.
