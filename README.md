@@ -53,20 +53,40 @@ sightline-cli capture_window --json '{"app": "Safari"}'  # call one, prints JSON
 - `list_windows` lists the on-screen windows with app name, title and window id.
 - `list_displays` lists the connected displays, so a capture, recording or text read can pick one.
 - `capture_text` reads text with on-device OCR and decodes QR codes and barcodes.
-- `find_text` returns pixel boxes for text in a window, area or display.
+- `find_text` returns pixel boxes for text in a window, area, display or the screenshot open in an editor.
 - `pick_color` returns the hex and RGB color of one point on screen.
 - `capture_scrolling` stitches a scrolling area or window into one tall image.
-- `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video. On a screenshot it also crops, rotates, flips, resizes and exports. On a recording it also cuts and reorders clips, plays them at 0.5x to 15x, sets the volume of stretches, adds smooth or instant zooms by hand or on every click, draws the pointer and click highlights and exports a smaller copy or a looping GIF; blurs follow what they cover.
-- `record_screen` records a window, area or display for up to a minute to MP4 and notes where the pointer moves and clicks. It never records the microphone.
-- `inspect_recording` reports when a recording is still or moving, reads text in chosen frames and lists the clicks of the pointer track.
+- `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video. On a screenshot it also crops, rotates, flips, resizes and exports. On a recording it also cuts and reorders clips, plays them at 0.5x to 15x, sets the volume of stretches, adds smooth or instant zooms by hand or on every click, draws the pointer and click highlights, shows the keys pressed while recording and exports a smaller copy or a looping GIF; blurs follow what they cover.
+- `record_screen` records a window, area or display for up to a minute to MP4, at its original size, 1080p or 720p, and notes where the pointer moves and clicks. It never records the microphone or the keys pressed.
+- `inspect_recording` reports when a recording is still or moving, reads text in chosen frames and lists the clicks of the pointer track and the keys pressed.
 - `last_screenshot`, `last_recording` return the newest capture.
+- `list_editors` lists the editor windows the user has open, front window first, with an image of the front screenshot, so an agent can work on what the user is looking at.
 - `search_captures` searches the user's screenshots and recordings like Sightline's History, by file name and by the text Sightline read in each screenshot on the Mac, and returns paths, dates, favorites and a snippet of the matching text.
 - `copy_to_clipboard` copies an image to the clipboard.
 - `compare_with_design` compares a design image with a window, area or display, the same check as Show Differences on a pin, and returns up to 20 numbered differences with a hint (shifted, only_in_design, only_on_screen, looks_different) and a marked image.
-- `open_in_editor` opens an image or recording in the Sightline editor with editable annotations, clips, sound, zooms, pointer choices, a rotation, a size or a Beautify look, continues a capture the user saved as editable, or opens the picture on the user's clipboard.
-- `beautify` puts a screenshot on a background with padding, rounded corners and a shadow, using a built-in look, one of the user's presets or their default look.
-- `list_looks` lists the built-in looks, the user's presets and their default look; `save_look` saves a new preset.
+- `open_in_editor` opens an image or recording in the Sightline editor with editable annotations, clips, sound, zooms, pointer choices, a rotation, a size, a Style look or the keys shown, continues a capture the user saved as editable, or opens the picture on the user's clipboard.
+- `beautify` puts a screenshot on a background with padding, rounded corners and a shadow, like the editor's Style panel, using a built-in look, one of the user's presets or their default look.
+- `list_looks` lists the built-in looks (None, Soft, Sunset, Night, Paper, Sightline), the user's presets and their default look; `save_look` saves a new preset.
 - `save_replay` saves the last seconds of the screen when Replay is on (macOS 27).
+
+### New in Sightline 1.8
+
+Editors:
+
+- `list_editors` returns each open editor with `id`, `kind` (`screenshot` or `recording`), `title`, `width`, `height`, `path` (or null when the editor shows no file) and `front`, plus an image of the front screenshot editor unless `include_image` is false.
+- `annotate`, `open_in_editor` and `beautify` take `editor`, an id from `list_editors` or `front`, instead of a path. The change appears live and animated in that window as one undo step, with the agent's name, and no file is written; the user saves as usual. Coordinates are pixels of the width and height `list_editors` reports. `find_text` takes `editor` too and returns boxes in those pixels.
+- When a file an agent changes is open in an editor, also one the user opened, the change lands there live as one undo step.
+- `last_screenshot` returns the agent's own last capture; for the user's screenshot call `list_editors`.
+
+Recordings:
+
+- `record_screen` takes `size` (`original`, `1080p` or `720p`) and `quality` (`high`, `medium` or `small`). Anything other than the defaults encodes the recording once more and keeps only the smaller file, with the pointer track scaled to fit.
+- `annotate` and `open_in_editor` take `keys`: `{parts: [{start_second, end_second, mode: words | letters | shortcuts | hidden}], position: bottomLeft | bottomCenter | bottomRight | topCenter, size: small | medium | large, look: dark | light}`, like the Keys row and the Keys button in the recording editor. Seconds count in the original recording.
+- `inspect_recording` returns `has_key_track` and, with a track, `keys`: each shortcut by its label, such as `⇧⌘5`, and typed text grouped into words, each with `second` and `keys`. At most 200 are listed, `keys_left_out` counts the rest. Keys are noted only for recordings the user makes with Show keystrokes on in Settings > Recording, never for `record_screen` or replays.
+
+Style:
+
+- Beautify is called Style in the app. The tool keeps the name `beautify`, and its looks are None, Soft, Sunset, Night, Paper and Sightline. `ocean` stays available as a `background` gradient.
 
 ### New in Sightline 1.7
 
