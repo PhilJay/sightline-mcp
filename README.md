@@ -17,7 +17,10 @@ The server is part of [Sightline](https://apps.apple.com/app/id6812521593), the 
 
 ## Setup
 
-1. Install [Sightline](https://apps.apple.com/app/id6812521593) from the Mac App Store (macOS 14 or later) and give it Screen Recording permission.
+Full docs with every tool, its parameters and example workflows: [sightlinemac.com/docs/mcp](https://sightlinemac.com/docs/mcp/).
+
+
+1. Install [Sightline](https://apps.apple.com/app/id6812521593) from the Mac App Store (macOS 14 or later) and give it Screen Recording permission. Agent access is part of Sightline Pro, with a 7 day free trial.
 2. Open Settings > AI Agents, turn agent access on and click Connect for Claude Code, Claude Desktop or Codex CLI.
 
 Or add it by hand. Claude Code:
@@ -55,7 +58,7 @@ sightline-cli capture_window --json '{"app": "Safari"}'  # call one, prints JSON
 - `capture_text` reads text with on-device OCR and decodes QR codes and barcodes.
 - `find_text` returns pixel boxes for text in a window, area, display or the screenshot open in an editor.
 - `pick_color` returns the hex and RGB color of one point on screen.
-- `capture_scrolling` stitches a scrolling area or window into one tall image.
+- `capture_scrolling` stitches a scrolling area or window into one tall image. The Mac App Store version can't scroll other apps for an agent and returns an error; use `capture_window`, or take the scrolling screenshot by hand.
 - `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video. On a screenshot it also crops, rotates, flips, resizes and exports. On a recording it also cuts and reorders clips, plays them at 0.5x to 15x, sets the volume of stretches, adds smooth or instant zooms by hand or on every click, draws the pointer and click highlights, shows the keys pressed while recording and exports a smaller copy or a looping GIF; blurs follow what they cover.
 - `record_screen` records a window, area or display for up to a minute to MP4, at its original size, 1080p or 720p, and notes where the pointer moves and clicks. It never records the microphone or the keys pressed.
 - `inspect_recording` reports when a recording is still or moving, reads text in chosen frames and lists the clicks of the pointer track and the keys pressed.
@@ -110,6 +113,6 @@ Recordings:
 
 Captures:
 
-- `search_captures` takes `query` (every word has to appear in the file name or the screenshot's text, in any order, ignoring case and accents; empty lists the newest), `kind` (`screenshot` or `recording`, both by default), `favorites_only` (default false) and `limit` (1 to 100, default 20). Each result has `path`, `kind`, `date`, `favorite` and, when the text matched, a `snippet`; a snippet that looks like a credential is left out, with `snippet_hidden: true`, when Sightline redacts them for agents. `total` counts every match, and `reading_text` says how many screenshots are still waiting to be read. Recordings match by file name only. It searches the screenshots folder and the Agent folder; the other tools only take files in the Agent folder, so copy a screenshot there first to annotate it.
+- `search_captures` takes `query` (every word has to appear in the file name or the screenshot's text, in any order, ignoring case and accents; empty lists the newest), `kind` (`screenshot` or `recording`, both by default), `favorites_only` (default false) and `limit` (1 to 100, default 20). Each result has `path`, `kind`, `date`, `favorite` and, when the text matched, a `snippet`; when Sightline hides credentials from agents, lines that look like a credential are neither searched nor returned. `total` counts every match, and `reading_text` says how many screenshots are still waiting to be read. Recordings match by file name only. It searches the screenshots folder and the Agent folder; the other tools only take files in the Agent folder, so copy a screenshot there first to annotate it.
 
 The pointer track options need a recording made with Sightline 1.7 or later.
