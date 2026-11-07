@@ -52,25 +52,56 @@ sightline-cli capture_window --json '{"app": "Safari"}'  # call one, prints JSON
 
 ## Tools
 
+Sightline has 25 tools. The Mac App Store version lists 24, without `capture_scrolling`.
+
 - `capture_screen`, `capture_area`, `capture_window` capture a display, an area or a window, optionally with annotations.
 - `list_windows` lists the on-screen windows with app name, title and window id.
 - `list_displays` lists the connected displays, so a capture, recording or text read can pick one.
 - `capture_text` reads text with on-device OCR and decodes QR codes and barcodes.
 - `find_text` returns pixel boxes for text in a window, area, display or the screenshot open in an editor.
 - `pick_color` returns the hex and RGB color of one point on screen.
-- `capture_scrolling` stitches a scrolling area or window into one tall image. The Mac App Store version can't scroll other apps for an agent and returns an error; use `capture_window`, or take the scrolling screenshot by hand.
-- `annotate` draws arrows, shapes, freehand lines, text, spotlights and blurs or pixelation onto an image or a video. On a screenshot it also crops, rotates, flips, resizes and exports. On a recording it also cuts and reorders clips, plays them at 0.5x to 15x, sets the volume of stretches, adds smooth or instant zooms by hand or on every click, draws the pointer and click highlights, shows the keys pressed while recording and exports a smaller copy or a looping GIF; blurs follow what they cover.
-- `record_screen` records a window, area or display for up to a minute to MP4, at its original size, 1080p or 720p, and notes where the pointer moves and clicks. It never records the microphone or the keys pressed.
-- `inspect_recording` reports when a recording is still or moving, reads text in chosen frames and lists the clicks of the pointer track and the keys pressed.
+- `capture_scrolling` stitches a scrolling area or window into one tall image. The Mac App Store version doesn't list it, because the sandbox can't scroll other apps, and called by name it returns an error; use `capture_window`, or take the scrolling screenshot by hand.
+- `annotate` draws arrows, shapes, freehand lines, text, numbers, spotlights, magnify loupes and blurs or pixelation, also by subject (macOS 27), onto an image or a video. On a screenshot it also crops, rotates, flips, resizes, sets a Style look and exports. On a recording it also cuts and reorders clips, plays them at 0.5x to 15x, sets the volume of stretches, adds smooth or instant zooms by hand or on every click, draws the pointer and click highlights, shows the keys pressed while recording, shows, hides, moves, resizes and reshapes the camera the user recorded, and exports a smaller copy, a MOV or a looping GIF; blurs follow what they cover.
+- `record_screen` records a window, area or display for up to a minute to MP4, at its original size, 1080p or 720p, and notes where the pointer moves and clicks. It never records the microphone, the camera or the keys pressed, so an agent never captures anyone's voice or face.
+- `inspect_recording` reports when a recording is still or moving, reads text in chosen frames and lists the clicks of the pointer track, the keys pressed and the camera parts.
 - `last_screenshot`, `last_recording` return the newest capture.
-- `list_editors` lists the editor windows the user has open, front window first, with an image of the front screenshot, so an agent can work on what the user is looking at.
+- `list_editors` lists the editors the user has open, front window first, one entry per picture in a window with several, with an image of the front screenshot, so an agent can work on what the user is looking at.
 - `search_captures` searches the user's screenshots and recordings like Sightline's History, by file name and by the text Sightline read in each screenshot on the Mac, and returns paths, dates, favorites and a snippet of the matching text.
-- `copy_to_clipboard` copies an image to the clipboard.
+- `copy_to_clipboard` copies an image or recording to the clipboard, or a picture open in an editor as it looks there, or every picture of that window.
 - `compare_with_design` compares a design image with a window, area or display, the same check as Show Differences on a pin, and returns up to 20 numbered differences with a hint (shifted, only_in_design, only_on_screen, looks_different) and a marked image.
-- `open_in_editor` opens an image or recording in the Sightline editor with editable annotations, clips, sound, zooms, pointer choices, a rotation, a size, a Style look or the keys shown, continues a capture the user saved as editable, or opens the picture on the user's clipboard.
-- `beautify` puts a screenshot on a background with padding, rounded corners and a shadow, like the editor's Style panel, using a built-in look, one of the user's presets or their default look.
+- `open_in_editor` opens an image or recording in the Sightline editor with editable annotations, clips, sound, zooms, pointer choices, the camera, a rotation, a size, a Style look or the keys shown, in edit or view mode, opens several screenshots in one window or adds them to an open one, shrinks every picture of a window, continues a capture the user saved as editable, or opens the picture on the user's clipboard.
+- `beautify` puts a screenshot on a background with padding, rounded corners and a shadow, like the editor's Style panel, using a built-in look, one of the user's presets or their default look, on one picture or every picture of an editor window.
 - `list_looks` lists the built-in looks (None, Soft, Sunset, Night, Paper, Sightline), the user's presets and their default look; `save_look` saves a new preset.
+- `export_pictures` writes every picture of an editor window as files into a new folder in the Agent folder, like Export All.
+- `remove_background` lifts the subject of a screenshot off its background and saves a transparent PNG (Pro, macOS 27).
 - `save_replay` saves the last seconds of the screen when Replay is on (macOS 27).
+
+### New in Sightline 2.0
+
+Camera:
+
+- `annotate` and `open_in_editor` take `camera`: `{parts: [{start_second, end_second, hidden, x, y, height, shape: circle | rounded_rectangle}], shadow}`, like the Camera row and the Camera button in the recording editor. `x` and `y` are the camera's center and `height` its size (0.2 is usual), as shares from 0 to 1 of the finished frame. Seconds count in the original recording, parts must not overlap, and fields a part leaves out keep the camera as it is at its start. `shadow` is on by default. The camera is drawn into every file written, also MP4, MOV and GIF exports.
+- `camera` needs a recording the user made with the camera on. Agents can't record the camera themselves, and a stretch the user hid while recording has no picture.
+- `inspect_recording` returns `has_camera` and, with a camera, `camera`: `parts` in the form of the `camera` argument, `shadow` and `hidden_while_recording`. `open_in_editor` returns the restored camera of a saved edit in the same form.
+
+Windows with several pictures:
+
+- `export_pictures` takes `editor` (any picture's id from `list_editors`, or `front`), `format` (`png`, `jpeg` or `webp`) and `quality` (`high`, `medium` or `small`), and writes each picture as it looks in the editor, with marks, crop, Style look and size. It returns `folder` and `paths` in column order, and `failed` for pictures that couldn't be written.
+- `copy_to_clipboard` takes `editor` to copy a screenshot open in the editor as it looks there now, like Copy, and with `all_pictures: true` every picture of its window, like Copy All.
+- `beautify` with `editor` and `all_pictures: true` gives every picture of the window the same look, like Apply Style to All Pictures, each as its own undo step.
+- `open_in_editor` with `editor` and `paths` adds one or more screenshots to that window. With `editor`, `all_pictures: true` and `resize` (`scale` or `width` only) it shrinks every picture of the window, like Adjust Size of All Pictures.
+- `list_editors` names the window ids to pass: any picture's id works for the whole window.
+
+Remove background:
+
+- `remove_background` takes `path` (or the agent's last screenshot), `name` and `include_image`, and returns the cutout like a capture tool. It works best on a clear subject such as a person, an object, an icon or a window, and returns an error when it finds none. The source stays as it is. Needs Sightline Pro and macOS 27.
+
+### New in Sightline 1.9
+
+- `open_in_editor` takes `paths` to open two or more screenshots together in one editor window, and returns the `editors` id of each. Each picture is its own editor for `annotate`, `beautify` and `open_in_editor`.
+- `open_in_editor` takes `mode`: `edit` (default) or `view`, which shows only the picture or video with play controls.
+- `list_editors` returns one entry per picture with `window`, `shown`, `unsaved` and `editing` (false in view mode).
+- `pointer` takes `smooth` (on by default), which draws a drawn pointer along a smoothed path through every click.
 
 ### New in Sightline 1.8
 
