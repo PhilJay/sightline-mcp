@@ -80,7 +80,7 @@ Sightline has 25 tools. The Mac App Store version lists 24, without `capture_scr
 
 Camera:
 
-- `annotate` and `open_in_editor` take `camera`: `{parts: [{start_second, end_second, hidden, x, y, height, shape: circle | rounded_rectangle}], shadow}`, like the Camera row and the Camera button in the recording editor. `x` and `y` are the camera's center and `height` its size (0.2 is usual), as shares from 0 to 1 of the finished frame. Seconds count in the original recording, parts must not overlap, and fields a part leaves out keep the camera as it is at its start. `shadow` is on by default. The camera is drawn into every file written, also MP4, MOV and GIF exports.
+- `annotate` and `open_in_editor` take `camera`: `{parts: [{start_second, end_second, hidden, x, y, height, shape: circle | rounded_rectangle, corners: square | small | medium | large}], shadow}`, like the Camera row and the Camera button in the recording editor. `x` and `y` are the camera's center and `height` its size (0.2 is usual), as shares from 0 to 1 of the finished frame. Seconds count in the original recording, parts must not overlap, and fields a part leaves out keep the camera as it is at its start. `shadow` is on by default. The camera is drawn into every file written, also MP4, MOV and GIF exports. `annotate` with `camera_video: true` writes the camera video as recorded into the Agent folder as its own MOV and returns `camera_path`.
 - `camera` needs a recording the user made with the camera on. Agents can't record the camera themselves, and a stretch the user hid while recording has no picture.
 - `inspect_recording` returns `has_camera` and, with a camera, `camera`: `parts` in the form of the `camera` argument, `shadow` and `hidden_while_recording`. `open_in_editor` returns the restored camera of a saved edit in the same form.
 
@@ -114,7 +114,7 @@ Editors:
 
 Recordings:
 
-- `record_screen` takes `size` (`original`, `1080p` or `720p`) and `quality` (`high`, `medium` or `small`). Anything other than the defaults encodes the recording once more and keeps only the smaller file, with the pointer track scaled to fit.
+- `record_screen` takes `include_menu_bar` (`false` leaves the menu bar out of a display recording; defaults to the user's setting), `size` (`original`, `1080p` or `720p`) and `quality` (`high`, `medium` or `small`). Anything other than the defaults encodes the recording once more and keeps only the smaller file, with the pointer track scaled to fit.
 - `annotate` and `open_in_editor` take `keys`: `{parts: [{start_second, end_second, mode: words | letters | shortcuts | hidden}], position: bottomLeft | bottomCenter | bottomRight | topCenter, size: small | medium | large, look: dark | light}`, like the Keys row and the Keys button in the recording editor. Seconds count in the original recording.
 - `inspect_recording` returns `has_key_track` and, with a track, `keys`: each shortcut by its label, such as `⇧⌘5`, and typed text grouped into words, each with `second` and `keys`. At most 200 are listed, `keys_left_out` counts the rest. Keys are noted only for recordings the user makes with Show keystrokes on in Settings > Recording, never for `record_screen` or replays.
 
