@@ -1,0 +1,15 @@
+{
+  "name": "sightlinemac",
+  "description": "Official plugins for Sightline, the Mac screenshot and recording app.",
+  "owner": {
+    "name": "Philipp Jahoda",
+    "url": "https://sightlinemac.com"
+  },
+  "plugins": [
+    {
+      "name": "sightline",
+      "source": "./",
+      "description": "Capture, read, mark up, record and compare the Mac screen through Sightline's local MCP server."
+    }
+  ]
+}

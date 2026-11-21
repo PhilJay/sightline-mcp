@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sightline": {
+      "command": "/Applications/Sightline.app/Contents/MacOS/sightline-cli",
+      "args": ["mcp"]
+    }
+  }
+}
