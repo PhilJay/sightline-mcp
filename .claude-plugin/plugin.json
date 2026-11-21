@@ -1,0 +1,14 @@
+{
+  "name": "sightline",
+  "displayName": "Sightline",
+  "version": "1.0.0",
+  "description": "Capture, read, mark up, record and compare the Mac screen in Claude Code through Sightline's local MCP server. Requires the Sightline Mac app.",
+  "author": {
+    "name": "Philipp Jahoda",
+    "url": "https://sightlinemac.com"
+  },
+  "homepage": "https://sightlinemac.com/docs/mcp/",
+  "repository": "https://github.com/PhilJay/sightline-mcp",
+  "license": "MIT",
+  "keywords": ["macos", "screenshot", "screen-recording", "ocr", "design-diff"]
+}
